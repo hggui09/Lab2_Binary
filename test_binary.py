@@ -2,7 +2,7 @@
 
 import unittest
 
-from binary_re import find_binary, is_binary, to_decimal
+from binary_re import find_binary, find_binary_strict, is_binary, to_decimal
 
 
 class TestIsBinary(unittest.TestCase):
@@ -52,6 +52,10 @@ class TestFindBinary(unittest.TestCase):
     def test_multiline(self):
         text = 'Регистр: 0b0000_0101\nСтатус: 1100\nОшибка: 7'
         self.assertEqual(find_binary(text), ['0b0000_0101', '1100'])
+    def test_strict_mode(self):
+        text = 'Регистр 0b0101, тел 101-01-01'
+        self.assertEqual(find_binary(text), ['0b0101', '101', '01', '01'])
+        self.assertEqual(find_binary_strict(text), ['0b0101'])
 
 class TestToDecimal(unittest.TestCase):
     def test_values(self):
